@@ -18,7 +18,18 @@
             </li>
             
             <div *ngIf="isAuthenticated()">
-                <button class="btn btn-sm btn-success adminButton" (click)="addPage()">
+                <p-dialog header="Add Page" [modal]="true" [responsive]="true" [width]="450" [(visible)]="displayAddPageDialog">
+                    <span class="ui-float-label">
+                        <input id="float-input" type="text" size="30" pInputText [(ngModel)]="newPage.title"> 
+                        <label for="float-input">Page Title</label>
+                    </span>
+                    <p-footer>
+                        <button type="button" pButton icon="fa-check" (click)="addPage()" label="OK"></button>
+                        <button type="button" pButton icon="fa-close" (click)="displayAddPageDialog=false" label="Cancel"></button>
+                    </p-footer>
+                </p-dialog>
+                
+                <button class="btn btn-sm btn-success adminButton" (click)="showAddPageDialog()">
                     <i class="fas fa-plus"></i>
                     Add Page
                 </button>

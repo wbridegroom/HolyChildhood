@@ -1,4 +1,9 @@
-<button class="btn btn-sm btn-danger adminButton" (click)="deletePage()">Delete</button>
+<br />
+<p-confirmDialog header="Delete Page?" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+<button class="btn btn-sm btn-danger adminButton" (click)="deletePage()">
+        <i class="fas fa-trash-alt"></i>
+        Delete
+</button>
 <div *ngIf="contentList$ | async as contentList">
     <div *ngFor="let pageContent of contentList">
         <div innerHTML="{{ pageContent.content }}"></div>

@@ -3,6 +3,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Page } from './../shared/models/page';
 import { PageService } from './../shared/services/page.service';
 import { UserService } from './../shared/services/user.service';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-nav-menu',
@@ -11,6 +13,8 @@ import { UserService } from './../shared/services/user.service';
 })
 export class NavMenuComponent implements OnInit, OnDestroy {
     isExpanded = false;
+    displayAddPageDialog: boolean = false;
+    newPage: Page = {} as Page;
 
     constructor(private userService: UserService, public pageService: PageService) {}
 
@@ -41,14 +45,15 @@ export class NavMenuComponent implements OnInit, OnDestroy {
         this.pageService.getTopLevelPages();
     }
 
-    test() {
-        console.info("This is a test");
+    showAddPageDialog() {
+        this.newPage = {} as Page;
+        this.displayAddPageDialog = true;
     }
 
     addPage(): void {
-        console.info("Adding Page");
-        const title = "Test 1";
-        this.pageService.addPage({ title } as Page);
+        console.info(`Adding Page: ${this.newPage.title}`);
+        this.displayAddPageDialog = false;
+        this.pageService.addPage(this.newPage);
     }
 
     collapse() {

@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { PageContent } from './../shared/models/page-content';
 import { PageService } from './../shared/services/page.service';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService} from 'primeng/api';
 
 @Component({
   selector: 'app-page',
@@ -18,7 +20,10 @@ export class PageComponent implements OnInit {
     contentList$: Observable<PageContent[]>;
     pageId: string;
 
-    constructor(private pageService: PageService, private route: ActivatedRoute, private router: Router) { }
+    constructor(private pageService: PageService, 
+                private route: ActivatedRoute, 
+                private router: Router, 
+                private confirmService: ConfirmationService) { }
 
     ngOnInit() {
         this.contentList$ = this.route.paramMap.switchMap((params: ParamMap) => {
@@ -28,7 +33,11 @@ export class PageComponent implements OnInit {
     }
 
     deletePage() {
-        this.pageService.deletePage(this.pageId);
+        this.confirmService.confirm({
+            message: 'Are you sure you want to delete this page?',
+            accept: () => {
+                this.pageService.deletePage(this.pageId);
+            }
+        });
     }
-
 }
