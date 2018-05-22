@@ -1,34 +1,44 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { AppRouting } from './app.routing';
+import { AuthenticationHttpInterceptor } from './shared/interceptors/authentication.httpInterceptor';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { HttpModule } from '@angular/http';
+import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { NgModule } from '@angular/core';
+import { PageService } from './shared/services/page.service';
+import { SettingsComponent } from './settings/settings.component';
+import { UserService } from './shared/services/user.service';
+import { environment } from './../environments/environment';
+import { PageComponent } from './page/page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent
+    SettingsComponent,
+    PageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
+    HttpModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-    ])
+    AppRouting
   ],
-  providers: [],
+  providers: [
+    PageService,
+    UserService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationHttpInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

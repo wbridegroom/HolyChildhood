@@ -1,0 +1,6 @@
+<button class="btn btn-sm btn-danger adminButton" (click)="deletePage()">Delete</button>
+<div *ngIf="contentList$ | async as contentList">
+    <div *ngFor="let pageContent of contentList">
+        <div innerHTML="{{ pageContent.content }}"></div>
+    </div>
+</div>
