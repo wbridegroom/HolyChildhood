@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HolyChildhood.Models
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<AppUser>
     {
         public AppDbContext(DbContextOptions options) : base(options) { }
 

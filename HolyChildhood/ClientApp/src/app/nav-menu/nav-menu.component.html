@@ -3,7 +3,7 @@
     <div class="navbar-brand">
         <img src="assets/images/cross.png" style="height: 35px">
     </div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" 
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>Menu
     </button>
@@ -12,15 +12,15 @@
             <li class="nav-item">
                 <a class="nav-item nav-link" routerLinkActive="active" routerLink="/home">Home</a>
             </li>
-            
+
             <li class="nav-item" *ngFor="let page of pageService.pages">
                 <a class="nav-item nav-link" routerLinkActive="active"  routerLink="/page/{{ page.id }}">{{ page.title }}</a>
             </li>
-            
+
             <div *ngIf="isAuthenticated()">
                 <p-dialog header="Add Page" [modal]="true" [responsive]="true" [width]="450" [(visible)]="displayAddPageDialog">
                     <span class="ui-float-label">
-                        <input id="float-input" type="text" size="30" pInputText [(ngModel)]="newPage.title"> 
+                        <input id="float-input" type="text" size="30" pInputText [(ngModel)]="newPage.title">
                         <label for="float-input">Page Title</label>
                     </span>
                     <p-footer>
@@ -28,13 +28,13 @@
                         <button type="button" pButton icon="fa-close" (click)="displayAddPageDialog=false" label="Cancel"></button>
                     </p-footer>
                 </p-dialog>
-                
+
                 <button class="btn btn-sm btn-success adminButton" (click)="showAddPageDialog()">
                     <i class="fas fa-plus"></i>
                     Add Page
                 </button>
             </div>
-            
+
         </ul>
         <ul class="navbar-nav">
             <li *ngIf="isAuthenticated()" class="nav-item dropdown">
@@ -46,10 +46,10 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" (click)="logout()" href="#">Logoff</a>
                 </div>
-                
+
             </li>
             <li *ngIf="!isAuthenticated()" class="nav-item">
-                <button class="btn btn-sm btn-outline-light" (click)="login()">Login</button>
+                <button class="btn btn-sm btn-outline-light" routerLink="/login">Login</button>
             </li>
         </ul>
     </div>

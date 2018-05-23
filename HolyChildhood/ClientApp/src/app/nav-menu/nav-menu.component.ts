@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Page } from './../shared/models/page';
 import { PageService } from './../shared/services/page.service';
-import { UserService } from './../shared/services/user.service';
+import { AuthService } from './../shared/services/auth.service';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 
@@ -13,10 +13,10 @@ import { InputTextModule } from 'primeng/inputtext';
 })
 export class NavMenuComponent implements OnInit, OnDestroy {
     isExpanded = false;
-    displayAddPageDialog: boolean = false;
+    displayAddPageDialog = false;
     newPage: Page = {} as Page;
 
-    constructor(private userService: UserService, public pageService: PageService) {}
+    constructor(private authService: AuthService, public pageService: PageService) {}
 
     ngOnInit() {
         this.getPages();
@@ -25,20 +25,18 @@ export class NavMenuComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
     }
 
-    login() {
-        this.userService.login();
-    }
-
     logout() {
-        this.userService.logout();
+        this.authService.logout();
     }
 
     isAuthenticated(): boolean {
-        return this.userService.isLoggedIn();
+        return this.authService.isLoggedIn();
     }
 
     getUserName(): string {
-        return this.userService.getUser().name;
+        const auth = this.authService.getAuth();
+        const userName = auth.userName;
+        return userName;
     }
 
     getPages() {
@@ -51,7 +49,7 @@ export class NavMenuComponent implements OnInit, OnDestroy {
     }
 
     addPage(): void {
-        console.info(`Adding Page: ${this.newPage.title}`);
+        console.log(`Adding Page: ${this.newPage.title}`);
         this.displayAddPageDialog = false;
         this.pageService.addPage(this.newPage);
     }

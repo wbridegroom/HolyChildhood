@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 using HolyChildhood.Models;
+using HolyChildhood.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,30 +14,33 @@ namespace HolyChildhood.Controllers
     [ApiController]
     public class SettingsController : Controller
     {
-        private readonly ClaimsPrincipal user;
         private readonly AppDbContext dbContext;
 
-        public SettingsController(AppDbContext dbContext,
-            IHttpContextAccessor httpContextAccessor)
+        public SettingsController(AppDbContext dbContext)
         {
-            user = httpContextAccessor.HttpContext.User;
             this.dbContext = dbContext;
         }
 
         [HttpGet]
-        public ActionResult<UserTest> Get()
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public ActionResult<SettingsViewModel> Get()
         {
-            var claims = new List<Claim>(user.Claims);
-            return new UserTest {
-                Name = claims.FirstOrDefault(c => c.Type == "name")?.Value,
-                Email = claims.FirstOrDefault(c => c.Type == "emails")?.Value
-            };
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = dbContext.Users.Find(userId);
+            if (user != null)
+            {
+                return new SettingsViewModel
+                {
+                    UserName = user.UserName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email
+                };
+            }
+
+            return NotFound();
         }
     }
 
-    public class UserTest
-    {
-        public string Name { get; set; }
-        public string Email { get; set; }
-    }
 }

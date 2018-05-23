@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { UserService } from './../shared/services/user.service';
 
 @Component({
   selector: 'app-settings',
@@ -13,7 +12,7 @@ export class SettingsComponent implements OnInit {
     name: string;
     email: string;
 
-    constructor(private http: HttpClient, private userService: UserService) { }
+    constructor(private http: HttpClient) { }
 
     ngOnInit() {
         this.getUserDetails();
@@ -21,8 +20,8 @@ export class SettingsComponent implements OnInit {
 
     getUserDetails() {
         this.http.get('/api/settings').subscribe(data => {
-            console.log(`Data: ${data}`);
-            this.name = data['name'];
+            console.log(`Data: ${JSON.stringify(data)}`);
+            this.name = data['firstName'] + ' ' + data['lastName'];
             this.email = data['email'];
         });
     }

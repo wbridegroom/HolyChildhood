@@ -32,20 +32,20 @@ export class PageService {
     }
 
     public addPage(page: Page) {
-        const httpOptions = {
+        const options = {
             headers: new HttpHeaders({
               'Content-Type':  'application/json'
             })
           };
-        this.httpClient.post<Page>('/api/page', page, httpOptions).subscribe(page => {
-            this.pages.push(page);
-            this.router.navigate([`/page/${page.id}`]);
+        this.httpClient.post<Page>('/api/page', page, options).subscribe(res => {
+            this.pages.push(res);
+            this.router.navigate([`/page/${res.id}`]);
         });
     }
 
     public deletePage(id: string) {
         const url = `/api/page/${id}`;
-        console.info(`URL: ${url}`);
+        console.log(`URL: ${url}`);
         this.httpClient.delete<Page>(url).subscribe(data => {
             this.getTopLevelPages();
             this.router.navigate(['/home']);
