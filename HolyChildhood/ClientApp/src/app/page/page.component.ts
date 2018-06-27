@@ -7,8 +7,9 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { PageContent } from './../shared/models/page-content';
 import { PageService } from './../shared/services/page.service';
-import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {ConfirmationService} from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-page',
@@ -17,18 +18,20 @@ import {ConfirmationService} from 'primeng/api';
 })
 export class PageComponent implements OnInit {
 
-    contentList$: Observable<PageContent[]>;
+    // contentList$: Observable<PageContent[]>;
     pageId: string;
 
-    constructor(private pageService: PageService, 
-                private route: ActivatedRoute, 
-                private router: Router, 
+    constructor(private authService: AuthService,
+                public pageService: PageService,
+                private route: ActivatedRoute,
+                private router: Router,
                 private confirmService: ConfirmationService) { }
 
     ngOnInit() {
-        this.contentList$ = this.route.paramMap.switchMap((params: ParamMap) => {
+        this.route.paramMap.subscribe(params => {
             this.pageId = params.get('id');
-            return this.pageService.getPageContent(params.get('id'));  
+            console.log(`Page Id: ${this.pageId}`);
+            this.pageService.loadPageContent(this.pageId);
         });
     }
 
@@ -39,5 +42,20 @@ export class PageComponent implements OnInit {
                 this.pageService.deletePage(this.pageId);
             }
         });
+    }
+
+    addContent() {
+        this.pageService.addPageContent(this.pageId);
+    }
+
+    deleteContent(id: string) {
+        console.log(`Delete Page Content Id: ${id}`);
+        this.pageService.deletePageContent(id).subscribe(data => {
+            this.pageService.loadPageContent(this.pageId);
+        });
+    }
+
+    isAuthenticated(): boolean {
+        return this.authService.isLoggedIn();
     }
 }

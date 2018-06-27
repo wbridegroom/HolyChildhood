@@ -18,17 +18,20 @@ const httpOptions = {
 export class PageService {
 
     pages: Page[];
+    pageContents: PageContent[];
 
     constructor(private httpClient: HttpClient, private router: Router) { }
 
     public getTopLevelPages() {
-        return this.httpClient.get('/api/page').subscribe((data: Page[]) => {
+        this.httpClient.get('/api/page').subscribe((data: Page[]) => {
             this.pages = data;
         });
     }
 
-    public getPageContent(id: number | string): Observable<PageContent[]> {
-        return this.httpClient.get<PageContent[]>(`/api/pagecontent/list/${id}`);
+    public loadPageContent(id: number | string) {
+        this.httpClient.get<PageContent[]>(`/api/pagecontent/list/${id}`).subscribe((data: PageContent[]) => {
+            this.pageContents = data;
+        });
     }
 
     public addPage(page: Page) {
@@ -52,12 +55,27 @@ export class PageService {
         });
     }
 
-    public addPageContent(pageContent: PageContent) {
-
+    public addPageContent(pageId: string) {
+        const url = `/api/pagecontent/create/${pageId}`;
+        const options = {
+            headers: new HttpHeaders({
+              'Content-Type':  'application/json'
+            })
+        };
+        const newContent = { content: '<p>New Content</p>'} as PageContent;
+        this.httpClient.post(url, newContent, options).subscribe((data: PageContent) => {
+            this.pageContents.push(data);
+        });
     }
 
-    public deletePageContent(id: number) {
-
+    public deletePageContent(id: string) {
+        const url = `/api/pagecontent/delete/${id}`;
+        const options = {
+            headers: new HttpHeaders({
+              'Content-Type':  'application/json'
+            })
+        };
+        return this.httpClient.delete(url);
     }
 
     public updatePageContent(pageContent: PageContent) {

@@ -1,11 +1,25 @@
 <br />
-<p-confirmDialog header="Delete Page?" icon="fa fa-question-circle" width="425"></p-confirmDialog>
-<button class="btn btn-sm btn-danger adminButton" (click)="deletePage()">
-        <i class="fas fa-trash-alt"></i>
-        Delete
-</button>
-<div *ngIf="contentList$ | async as contentList">
-    <div *ngFor="let pageContent of contentList">
+<div *ngIf="isAuthenticated()">
+    <p-confirmDialog header="Delete Page?" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+    <button class="btn btn-sm btn-danger adminButton" (click)="deletePage()">
+            <i class="fas fa-trash-alt"></i>
+            Delete
+    </button>
+
+    <button class="btn btn-sm btn-primary adminButton" (click)="addContent()">
+            <i class="fas fa-plus"></i>
+        Add Content
+    </button>
+</div>
+
+<div *ngIf="pageService.pageContents">
+    <div *ngFor="let pageContent of pageService.pageContents">
         <div innerHTML="{{ pageContent.content }}"></div>
+        <div *ngIf="isAuthenticated()">
+            <button class="btn btn-sm btn-danger adminButton" (click)="deleteContent(pageContent.id)">
+                <i class="fas fa-trash-alt"></i>
+                Delete Content
+            </button>
+        </div>
     </div>
 </div>
