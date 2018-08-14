@@ -21,6 +21,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './shared/services/auth.service';
 import { AuthInterceptor } from './shared/services/auth.interceptor';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { AuthInterceptor } from './shared/services/auth.interceptor';
     InputTextModule,
     HttpClientModule,
     HttpModule,
+    QuillModule,
     AppRouting
   ],
   providers: [

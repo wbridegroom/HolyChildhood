@@ -79,6 +79,12 @@ export class PageService {
     }
 
     public updatePageContent(pageContent: PageContent) {
-
+        const url = `/api/pagecontent/update`;
+        const options = {
+            headers: new HttpHeaders({
+              'Content-Type':  'application/json'
+            })
+        };
+        this.httpClient.put(url, pageContent, options).subscribe();
     }
 }

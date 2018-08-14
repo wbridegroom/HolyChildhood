@@ -18,8 +18,8 @@ import { AuthService } from '../shared/services/auth.service';
 })
 export class PageComponent implements OnInit {
 
-    // contentList$: Observable<PageContent[]>;
     pageId: string;
+    isEdit = false;
 
     constructor(private authService: AuthService,
                 public pageService: PageService,
@@ -46,6 +46,15 @@ export class PageComponent implements OnInit {
 
     addContent() {
         this.pageService.addPageContent(this.pageId);
+    }
+
+    editContent(pageContent) {
+        pageContent.editing = true;
+    }
+
+    saveContent(pageContent) {
+        pageContent.editing = false;
+        this.pageService.updatePageContent(pageContent);
     }
 
     deleteContent(id: string) {
