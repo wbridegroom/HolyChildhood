@@ -20,37 +20,99 @@
           </p>
       </div>
   </div>
+    <div class="row">
+        <div class="col">
+            <h2>Mass Schedule</h2>
+            <div class="row">
+                <div class="col">Saturday</div>
+                <div class="col">5:00 P.M.</div>
+            </div>
+            <div class="row">
+                <div class="col">Sunday</div>
+                <div class="col">8:00 A.M.</div>
+            </div>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col">10:30 A.M.</div>
+            </div>
+            <div class="row">
+                <div class="col">Tue, Thurs, Fri</div>
+                <div class="col">8:00 A.M.</div>
+            </div>
+        </div>
+        <div class="col">
+            <h2>Reconciliation</h2>
+            <div class="row">
+                <div class="col">Saturday</div>
+                <div class="col">4:00 P.M.</div>
+            </div>
+        </div>
+        <div class="col">
+            <h2>Upcoming Events</h2>
+            <div class="row" *ngFor="let event of eventService.events">
+                <div class="col-md-4"><span class="list-item">{{event.date | date:'MMMM d'}}</span></div>
+                <div class="col-md-8">
+                    {{event.title}}
+                    <span *ngIf="event.beginTime && event.endTime">
+                        ({{event.beginTime | date:'h:mm'}} - {{event.endTime | date: 'h:mm a'}})
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
   <div class="row">
-      <div class="col">
-          <h2>Mass Schedule</h2>
+      <div class="col-12">
+          <h2>Contact Information</h2>
           <div class="row">
-              <div class="col">Saturday</div>
-              <div class="col">5:00 P.M.</div>
+              <div class="col-md-2">
+                   <span class="list-item">Pastor</span>
+              </div>
+              <div class="col-md-10">
+                  Reverend Paul R. Wienhoff - <a href="mailto:paul.wienhoff@holychildhoodchurch.com">paul.wienhoff@holychildhoodchurch.com</a>
+              </div>
           </div>
           <div class="row">
-              <div class="col">Sunday</div>
-              <div class="col">8:00 A.M.</div>
+              <div class="col-md-2">
+                  <span class="list-item">Permanent Deacon</span>
+              </div>
+              <div class="col-md-10">
+                  Daniel R. Cozzi - <a href="mailto:dan.cozzi@holychildhoodchurch.com">dan.cozzi@holychildhoodchurch.com</a>
+              </div>
           </div>
           <div class="row">
-              <div class="col"></div>
-              <div class="col">10:30 A.M.</div>
+              <div class="col-md-2">
+                  <span class="list-item">Church Address</span>
+              </div>
+              <div class="col-md-10">
+                  419 East Church Street, Mascoutah, IL 62258
+              </div>
           </div>
           <div class="row">
-              <div class="col">Tue, Thurs, Fri</div>
-              <div class="col">8:00 A.M.</div>
+              <div class="col-md-2">
+                  <span class="list-item">Phone</span>
+              </div>
+              <div class="col-md-10">
+                  618-566-2958
+              </div>
           </div>
-      </div>
-      <div class="col">
-          <h2>Reconciliation</h2>
           <div class="row">
-              <div class="col">Saturday</div>
-              <div class="col">4:00 P.M.</div>
+              <div class="col-md-2">
+                  <span class="list-item">Postal Address</span>
+              </div>
+              <div class="col-md-10">
+                  104 North Independence, Mascoutah, IL 62258
+              </div>
           </div>
-      </div>
-      <div class="col">
-          <h2>Upcoming Events</h2>
+          <div class="row">
+              <div class="col-md-2">
+                  <span class="list-item">General Information</span>
+              </div>
+              <div class="col-md-10">
+                  <a href="mailto:hcc@holychildhoodchurch.com">hcc@holychildhoodchurch.com</a>
+              </div>
+          </div>
       </div>
   </div>
-
 
 </div>

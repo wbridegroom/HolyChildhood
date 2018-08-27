@@ -12,3 +12,8 @@ body {
     body > .container {
         padding: 60px 15px 0;
     }
+
+.list-item {
+    color: #1f3e65;
+    font-weight: 600;
+}

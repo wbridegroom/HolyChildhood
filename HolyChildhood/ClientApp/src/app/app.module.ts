@@ -10,6 +10,7 @@ import { HttpModule } from '@angular/http';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { NgModule } from '@angular/core';
 import { PageService } from './shared/services/page.service';
+import { EventService } from './shared/services/event.service';
 import { SettingsComponent } from './settings/settings.component';
 import { environment } from './../environments/environment';
 import { PageComponent } from './page/page.component';
@@ -48,6 +49,7 @@ import { QuillModule } from 'ngx-quill';
   ],
   providers: [
     PageService,
+    EventService,
     AuthService,
     {
         provide: HTTP_INTERCEPTORS,

@@ -11,5 +11,9 @@ namespace HolyChildhood.Models
 
         public DbSet<PageContent> PageContents { get; set; }
 
+        public DbSet<Event> Events { get; set; }
+
+        public DbSet<ContactInformation> ContactInformations { get; set; }
+
     }
 }
