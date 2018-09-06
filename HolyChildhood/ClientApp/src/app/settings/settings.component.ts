@@ -1,59 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component} from '@angular/core';
 
-import { Setting } from '../shared/models/setting';
+import { Setting } from './../shared/models/setting';
+import { SettingsService } from '../shared/services/settings.service';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent {
 
     name: string;
     email: string;
-    settings: Setting[];
-    displaySettingDialog: boolean = false;
     setting: Setting;
+    displaySettingDialog: boolean = false;
 
-    constructor(private http: HttpClient) { }
-
-    ngOnInit() {
-        this.getSettings();
-        this.getUserDetails();
-    }
-
-    getSettings() {
-        this.http.get('/api/settings').subscribe((data: Setting[]) => {
-            this.settings = data;
-        });
-    }
+    constructor(public settings: SettingsService) { }
 
     editSetting(setting) {
-        this.setting = setting;
+        this.setting = Object.assign({}, setting);
         this.displaySettingDialog  = true;
     }
 
     saveSetting() {
-        const url = `/api/settings`;
-        const options = {
-            headers: new HttpHeaders({
-              'Content-Type':  'application/json'
-            })
-        };
-        this.http.put(url, this.setting, options).subscribe();
+        this.settings.save(this.setting);
         this.displaySettingDialog  = false;
     }
 
     cancelEdit() {
         this.displaySettingDialog  = false;
-    }
-
-    getUserDetails() {
-        this.http.get('/api/settings').subscribe(data => {
-            this.name = data['firstName'] + ' ' + data['lastName'];
-            this.email = data['email'];
-        });
     }
 
 }
