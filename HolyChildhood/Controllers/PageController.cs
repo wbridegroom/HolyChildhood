@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HolyChildhood.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +34,7 @@ namespace HolyChildhood.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -67,7 +69,26 @@ namespace HolyChildhood.Controllers
             }
         }
 
+        [HttpPut]
+        [Authorize]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<Page>> Update(Page page)
+        {
+            var pageUpdate = await dbContext.Pages.FindAsync(page.Id);
+            if (pageUpdate == null)
+            {
+                return NotFound();
+            }
+
+            pageUpdate.Title = page.Title;
+            dbContext.SaveChangesAsync();
+
+            return NoContent();
+        }
+
         [HttpDelete("{id}")]
+        [Authorize]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         public async Task<ActionResult> Delete(int id)

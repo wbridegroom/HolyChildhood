@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { PageService } from './../shared/services/page.service';
 import { ConfirmationService } from 'primeng/api';
 import { AuthService } from '../shared/services/auth.service';
+import { Page } from './../shared/models/page';
 
 
 @Component({
@@ -15,6 +16,8 @@ import { AuthService } from '../shared/services/auth.service';
 export class PageComponent implements OnInit {
     pageId: string;
     isEdit = false;
+    displayEditPageDialog = false;
+    pageEdit: Page;
     options: Object = {
         imageUploadURL: '/api/image',
         imageManagerDeleteMethod: 'DELETE',
@@ -47,6 +50,16 @@ export class PageComponent implements OnInit {
 
     addContent() {
         this.pageService.addPageContent(this.pageId);
+    }
+
+    editPage() {
+        this.pageEdit = Object.assign({}, this.pageService.page);
+        this.displayEditPageDialog = true;
+    }
+
+    updatePage() {
+        this.pageService.updatePage(this.pageEdit);
+        this.displayEditPageDialog = false;
     }
 
     editContent(pageContent) {
