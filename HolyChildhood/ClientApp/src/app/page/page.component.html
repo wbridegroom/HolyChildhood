@@ -1,8 +1,21 @@
 <div class="row adminPanel" *ngIf="isEditOn()">
     <div class="col-md-12">
+        <p-dialog *ngIf="pageEdit" header="Edit Page" [modal]="true" [responsive]="true" [width]="450" [(visible)]="displayEditPageDialog">
+            <span class="ui-float-label">
+                <input id="float-input" type="text" size="30" pInputText [(ngModel)]="pageEdit.title">
+                <label for="float-input">Page Title</label>
+            </span>
+            <p-footer>
+                <button type="button" pButton icon="fa-check" (click)="updatePage()" label="OK"></button>
+                <button type="button" pButton icon="fa-close" (click)="displayEditPageDialog=false" label="Cancel"></button>
+            </p-footer>
+        </p-dialog>
         <p-confirmDialog header="Delete Page?" icon="fa fa-question-circle" width="425"></p-confirmDialog>
         <button class="btn btn-sm btn-success adminButton" (click)="addContent()">
             <i class="fas fa-plus"></i> Add Content
+        </button>
+        <button class="btn btn-sm btn-primary adminButton" (click)="editPage()">
+            <i class="fas fa-edit"></i> Edit Page
         </button>
         <button class="btn btn-sm btn-danger adminButton" (click)="deletePage()">
             <i class="fas fa-trash-alt"></i> Delete Page

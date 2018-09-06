@@ -49,6 +49,19 @@ export class PageService {
         });
     }
 
+    public updatePage(page: Page) {
+        const url = `/api/page`;
+        const options = {
+            headers: new HttpHeaders({
+              'Content-Type':  'application/json'
+            })
+        };
+        this.httpClient.put(url, page, options).subscribe(() => {
+            this.getTopLevelPages();
+            this.loadPage(page.id);
+        });
+    }
+
     public deletePage(id: string) {
         const url = `/api/page/${id}`;
         console.log(`URL: ${url}`);
