@@ -1,8 +1,7 @@
 <div class="hcc-inside-image">
   <div style="height: 100%; position: relative;">
       <p class="hcc-quote">
-          At Holy Childhood, we use the gifts that God has given us, our gifts of time, 
-          talent and treasure, to further the Kingdom of God here on earth. 
+          {{ getSetting('Quote') }}
       </p>
   </div>
 </div>
@@ -12,11 +11,7 @@
       <div class="col">
           <h2>Our Mission</h2>
           <p>
-              To be a credible sign of God’s love and care, Holy Childhood Parish needs to be a loving, 
-              charitable and caring community that is spiritually challenging, generously welcoming and 
-              liturgically alive. We strive to reach out to those in spiritual need and basic material 
-              needs. We will be open to the ideas of others, and, with God’s help, continue to live out 
-              the Gospel message.  
+              {{ getSetting('Mission_Statement') }}
           </p>
       </div>
   </div>
@@ -50,7 +45,7 @@
         <div class="col">
             <h2>Upcoming Events</h2>
             <div class="row" *ngFor="let event of eventService.events">
-                <div class="col-md-4"><span class="list-item">{{event.date | date:'MMMM d'}}</span></div>
+                <div class="col-md-4"><span class="list-item">{{ event.date | date:'MMMM d'}}</span></div>
                 <div class="col-md-8">
                     {{event.title}}
                     <span *ngIf="event.beginTime && event.endTime">

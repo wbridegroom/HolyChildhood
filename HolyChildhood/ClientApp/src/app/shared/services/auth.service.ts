@@ -1,19 +1,21 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+
+
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable()
 export class AuthService {
 
     authKey = 'auth';
+    editKey = 'edit';
     clientId = 'hcweb';
 
     constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: any) { }
 
-    login(username: string, password: string): Observable<boolean> {
+    login(username: string, password: string): Observable<any> {
         const url = 'api/token/auth';
         const data = {
             username: username,
@@ -22,16 +24,7 @@ export class AuthService {
             grantType: 'password',
             scope: 'offline_access profile email'
         };
-        return this.http.post<TokenResponse>(url, data).map((res) => {
-            const token = res && res.token;
-            if (token) {
-                this.setAuth(res);
-                return true;
-            }
-            return Observable.throw('Unauthorized');
-        }).catch(error => {
-            return new Observable<any>(error);
-        });
+        return this.http.post<TokenResponse>(url, data);
     }
 
     logout(): boolean {
@@ -64,6 +57,19 @@ export class AuthService {
             }
         }
         return true;
+    }
+
+    setEdit(editOn: boolean) {
+        if (editOn) {
+            localStorage.setItem(this.editKey, JSON.stringify(editOn));
+        } else {
+            localStorage.removeItem(this.editKey);
+        }
+
+    }
+
+    isEdit(): boolean {
+        return localStorage.getItem(this.editKey) != null;
     }
 
 }

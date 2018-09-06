@@ -31,6 +31,10 @@ export class LoginComponent {
         const password = this.form.value.Password;
 
         this.authService.login(username, password).subscribe(res => {
+            const token = res && res.token;
+            if (token) {
+                this.authService.setAuth(res);
+            }
             this.router.navigate(['home']);
         }, err => {
             console.log(err);

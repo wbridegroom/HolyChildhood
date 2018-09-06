@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using HolyChildhood.Models;
 using HolyChildhood.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HolyChildhood.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SettingsController : Controller
@@ -23,23 +24,32 @@ namespace HolyChildhood.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
-        public ActionResult<SettingsViewModel> Get()
+        public IEnumerable<Setting> Get()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var user = dbContext.Users.Find(userId);
-            if (user != null)
+            //var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //var user = dbContext.Users.Find(userId);
+
+            return dbContext.Settings.ToList();
+
+            //return NotFound();
+        }
+
+        [Authorize]
+        [HttpPut]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<Setting>> Update(Setting setting)
+        {
+            var updateSetting = await dbContext.Settings.FindAsync(setting.Id);
+            if (updateSetting == null)
             {
-                return new SettingsViewModel
-                {
-                    UserName = user.UserName,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email
-                };
+                return NotFound();
             }
 
-            return NotFound();
+            updateSetting.Value = setting.Value;
+            dbContext.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 

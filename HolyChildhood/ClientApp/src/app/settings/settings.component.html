@@ -1,8 +1,42 @@
-<h3>Settings</h3>
-
+<br />
+<h3>Site Settings</h3>
+<br />
 <div class="row">
-    <div class="col-md-6 col-sm-3">
-        <p><strong>Name:</strong> {{ name }}</p>
-        <p><strong>Email:</strong> {{ email }}</p>
+    <div class="col-md-12">
+        <p-table [value]="settings">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 15%">Key</th>
+                    <th style="width: 75%">Value</th>
+                    <th style="width: 10%"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-setting>
+                <tr>
+                    <td>{{ setting.key }}</td>
+                    <td>{{ setting.value }}</td>
+                    <td>
+                        <Button class="btn btn-primary btn-sm" (click)="editSetting(setting)"><i class="fas fa-pencil-alt"></i></Button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <p-dialog header="Setting Value" [(visible)]="displaySettingDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="500">
+            <div class="ui-g ui-fluid" *ngIf="setting">
+                <div class="ui-g-12">
+                    {{ setting.key }}
+                </div>
+                <div class="ui-g-12">
+                    <textarea pInputTextarea id="value" [(ngModel)]="setting.value"></textarea>
+                </div>
+            </div>
+            <p-footer>
+                <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                    <button type="button" pButton icon="fas fa-ban" (click)="cancelEdit()" label="Cancel"></button>
+                    <button type="button" pButton icon="fa fa-check" (click)="saveSetting()" label="Save"></button>
+                </div>
+            </p-footer>
+        </p-dialog>
     </div>
 </div>

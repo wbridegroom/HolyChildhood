@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HolyChildhood.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HolyChildhood.Controllers
 {
@@ -21,29 +23,48 @@ namespace HolyChildhood.Controllers
         [HttpGet]
         public IEnumerable<Page> Get()
         {
-            return dbContext.Pages;
+            return dbContext.Pages.Where(p => p.Parent == null).Include(p => p.Children).ToList();
         }
 
         [HttpGet("{id}")]
         public Page Get(int id)
         {
-            return dbContext.Pages.FirstOrDefault(p => p.Id == id);
+            return dbContext.Pages.Include(p => p.Parent).FirstOrDefault(p => p.Id == id);
         }
 
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<Page>> Create(Page page)
         {
-            if (!ModelState.IsValid)
+            var newPage = page;
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (page.Parent != null)
+                {
+                    var parent = dbContext.Pages.Include(p => p.Children).FirstOrDefault(p => p.Id == page.Parent.Id);
+                    newPage = new Page {Title = page.Title};
+                    parent?.Children.Add(newPage);
+                }
+                else
+                {
+                    await dbContext.Pages.AddAsync(page);
+                }
+                
+                await dbContext.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(Get), new {id = newPage.Id}, newPage);
             }
-
-            await dbContext.Pages.AddAsync(page);
-            await dbContext.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(Get), new {id = page.Id}, page);
+            catch (Exception e)
+            {
+                return NotFound(e);
+            }
         }
 
         [HttpDelete("{id}")]
@@ -51,14 +72,21 @@ namespace HolyChildhood.Controllers
         [ProducesResponseType(404)]
         public async Task<ActionResult> Delete(int id)
         {
-            var page = await dbContext.Pages.FindAsync(id);
-            if(page == null)
+            try
             {
-                return NotFound();
-            }
+                var page = await dbContext.Pages.FindAsync(id);
+                if (page == null)
+                {
+                    return NotFound();
+                }
 
-            dbContext.Pages.Remove(page);
-            dbContext.SaveChangesAsync();
+                dbContext.Pages.Remove(page);
+                dbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return NotFound(e);
+            }
 
             return NoContent();
         }

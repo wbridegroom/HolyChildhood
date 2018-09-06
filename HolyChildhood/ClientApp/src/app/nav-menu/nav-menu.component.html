@@ -13,11 +13,20 @@
                 <a class="nav-item nav-link" routerLinkActive="active" routerLink="/home">Home</a>
             </li>
 
-            <li class="nav-item" *ngFor="let page of pageService.pages">
-                <a class="nav-item nav-link" routerLinkActive="active"  routerLink="/page/{{ page.id }}">{{ page.title }}</a>
+            <li class="nav-item" *ngFor="let page of pageService.pages" [ngClass]="{'dropdown': hasSubPages(page) || isEdit()}">
+                <a *ngIf="!hasSubPages(page) && !isEdit()" class="nav-item nav-link" routerLinkActive="active"  routerLink="/page/{{ page.id }}">{{ page.title }}</a>
+                <a *ngIf="hasSubPages(page) || isEdit()" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">{{ page.title }}</a>
+                <div class="dropdown-menu">
+                    <a *ngFor="let subpage of page.children" class="dropdown-item" routerLink="/page/{{ subpage.id }}">{{ subpage.title }}</a>
+
+                    <button *ngIf="isEdit()" class="dropdown-item" class="btn btn-sm btn-success adminButton" (click)="showAddPageDialog(page)">
+                        <i class="fas fa-plus"></i>
+                        Add Page
+                    </button>
+                </div>
             </li>
 
-            <div *ngIf="isAuthenticated()">
+            <div *ngIf="isEdit()">
                 <p-dialog header="Add Page" [modal]="true" [responsive]="true" [width]="450" [(visible)]="displayAddPageDialog">
                     <span class="ui-float-label">
                         <input id="float-input" type="text" size="30" pInputText [(ngModel)]="newPage.title">
@@ -29,7 +38,7 @@
                     </p-footer>
                 </p-dialog>
 
-                <button class="btn btn-sm btn-success adminButton" (click)="showAddPageDialog()">
+                <button class="btn btn-sm btn-success adminButton" (click)="showAddPageDialog(null)">
                     <i class="fas fa-plus"></i>
                     Add Page
                 </button>
@@ -43,8 +52,9 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="userDropdown">
                     <a class="dropdown-item" routerLinkActive="active" routerLink="/settings">Settings</a>
+                    <a class="dropdown-item" [routerLink]="" (click)="toggleEditMode()">{{ getEditMenuItem() }}</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" (click)="logout()" href="#">Logoff</a>
+                    <a class="dropdown-item" (click)="logout()" [routerLink]="">Logoff</a>
                 </div>
 
             </li>

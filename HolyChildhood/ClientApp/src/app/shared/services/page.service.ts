@@ -1,11 +1,7 @@
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { catchError, tap } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 import { Page } from './../models/page';
 import { PageContent } from './../models/page-content';
 
@@ -18,6 +14,7 @@ const httpOptions = {
 export class PageService {
 
     pages: Page[];
+    page: Page;
     pageContents: PageContent[];
 
     constructor(private httpClient: HttpClient, private router: Router) { }
@@ -25,6 +22,12 @@ export class PageService {
     public getTopLevelPages() {
         this.httpClient.get('/api/page').subscribe((data: Page[]) => {
             this.pages = data;
+        });
+    }
+
+    public loadPage(id: number | string) {
+        this.httpClient.get<Page>(`/api/page/${id}`).subscribe((data: Page) => {
+            this.page = data;
         });
     }
 
@@ -39,9 +42,9 @@ export class PageService {
             headers: new HttpHeaders({
               'Content-Type':  'application/json'
             })
-          };
+        };
         this.httpClient.post<Page>('/api/page', page, options).subscribe(res => {
-            this.pages.push(res);
+            this.getTopLevelPages();
             this.router.navigate([`/page/${res.id}`]);
         });
     }

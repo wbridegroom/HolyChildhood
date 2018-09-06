@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HolyChildhood.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HolyChildhood.Controllers
 {
@@ -50,13 +49,21 @@ namespace HolyChildhood.Controllers
                 return BadRequest(ModelState);
             }
 
-            var page = dbContext.Pages.Find(id);
-            if (page == null)
+            var page = dbContext.Pages.Include(p => p.PageContents).FirstOrDefault(p => p.Id == id);
+            if (page == null) return NotFound();
+            
+            // Find max Y
+            var y = 0;
+            foreach (var content in page.PageContents)
             {
-                return NotFound();
+                if (content.Y >= y) y = content.Y + 1;
             }
 
             pageContent.Page = page;
+            pageContent.Height = 1;
+            pageContent.Width = 4;
+            pageContent.X = 0;
+            pageContent.Y = y;
             dbContext.PageContents.AddAsync(pageContent);
             dbContext.SaveChangesAsync();
 

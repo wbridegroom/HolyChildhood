@@ -1,15 +1,13 @@
-import 'rxjs/add/operator/switchMap';
+
 
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
-import { PageContent } from './../shared/models/page-content';
 import { PageService } from './../shared/services/page.service';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { AuthService } from '../shared/services/auth.service';
+
 
 @Component({
   selector: 'app-page',
@@ -17,9 +15,14 @@ import { AuthService } from '../shared/services/auth.service';
   styleUrls: ['./page.component.css']
 })
 export class PageComponent implements OnInit {
-
     pageId: string;
     isEdit = false;
+    options: Object = {
+        imageUploadURL: '/api/image',
+        imageManagerDeleteMethod: 'DELETE',
+        imageManagerDeleteURL: '/api/image',
+        imageManagerLoadURL: '/api/image'
+    };
 
     constructor(private authService: AuthService,
                 public pageService: PageService,
@@ -30,10 +33,10 @@ export class PageComponent implements OnInit {
     ngOnInit() {
         this.route.paramMap.subscribe(params => {
             this.pageId = params.get('id');
-            console.log(`Page Id: ${this.pageId}`);
+            this.pageService.loadPage(this.pageId);
             this.pageService.loadPageContent(this.pageId);
         });
-    }
+    } 
 
     deletePage() {
         this.confirmService.confirm({
@@ -57,6 +60,10 @@ export class PageComponent implements OnInit {
         this.pageService.updatePageContent(pageContent);
     }
 
+    cancelEdit(pageContent) {
+        pageContent.editing = false;
+    }
+
     deleteContent(id: string) {
         console.log(`Delete Page Content Id: ${id}`);
         this.pageService.deletePageContent(id).subscribe(data => {
@@ -66,5 +73,9 @@ export class PageComponent implements OnInit {
 
     isAuthenticated(): boolean {
         return this.authService.isLoggedIn();
+    }
+
+    isEditOn(): boolean {
+        return this.isAuthenticated() && this.authService.isEdit();
     }
 }

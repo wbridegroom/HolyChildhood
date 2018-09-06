@@ -43,13 +43,21 @@ export class NavMenuComponent implements OnInit, OnDestroy {
         this.pageService.getTopLevelPages();
     }
 
-    showAddPageDialog() {
+    hasSubPages(page) {
+        if (page.children.length > 0) {
+            return true;
+        }
+    }
+
+    showAddPageDialog(page) {
         this.newPage = {} as Page;
+        if (page) {
+            this.newPage.parent = page;
+        }
         this.displayAddPageDialog = true;
     }
 
     addPage(): void {
-        console.log(`Adding Page: ${this.newPage.title}`);
         this.displayAddPageDialog = false;
         this.pageService.addPage(this.newPage);
     }
@@ -60,5 +68,25 @@ export class NavMenuComponent implements OnInit, OnDestroy {
 
     toggle() {
         this.isExpanded = !this.isExpanded;
+    }
+
+    isEdit() {
+        return this.isAuthenticated() && this.authService.isEdit();
+    }
+
+    getEditMenuItem() {
+        if (this.authService.isEdit()) {
+            return "Turn off Editing";
+        } else {
+            return "Turn on Editing";
+        }
+    }
+
+    toggleEditMode() {
+        if (this.authService.isEdit()) {
+            this.authService.setEdit(false);
+        } else {
+            this.authService.setEdit(true);
+        }
     }
 }

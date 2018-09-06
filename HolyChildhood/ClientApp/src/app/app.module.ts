@@ -6,7 +6,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
-import { HttpModule } from '@angular/http';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { NgModule } from '@angular/core';
 import { PageService } from './shared/services/page.service';
@@ -16,13 +15,15 @@ import { environment } from './../environments/environment';
 import { PageComponent } from './page/page.component';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TableModule } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './shared/services/auth.service';
 import { AuthInterceptor } from './shared/services/auth.interceptor';
-import { QuillModule } from 'ngx-quill';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 @NgModule({
   declarations: [
@@ -40,11 +41,13 @@ import { QuillModule } from 'ngx-quill';
     ReactiveFormsModule,
     DialogModule,
     ButtonModule,
+    TableModule,
     ConfirmDialogModule,
     InputTextModule,
+    InputTextareaModule,
     HttpClientModule,
-    HttpModule,
-    QuillModule,
+    FroalaEditorModule,
+    FroalaViewModule,
     AppRouting
   ],
   providers: [

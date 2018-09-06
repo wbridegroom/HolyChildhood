@@ -4,14 +4,16 @@ using HolyChildhood.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HolyChildhood.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180828221328_sub_pages")]
+    partial class sub_pages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,41 +156,6 @@ namespace HolyChildhood.Migrations
                     b.HasIndex("PageId");
 
                     b.ToTable("PageContents");
-                });
-
-            modelBuilder.Entity("HolyChildhood.Models.Setting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("CanDelete")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
-
-                    b.Property<string>("Key")
-                        .IsRequired();
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("Id");
-
-                    b.HasAlternateKey("Key")
-                        .HasName("AlternateKey_Key");
-
-                    b.ToTable("Settings");
-
-                    b.HasData(
-                        new { Id = 1, CanDelete = false, Key = "Title", Value = "Holy Childhood of Jesus" },
-                        new { Id = 2, CanDelete = false, Key = "Phone", Value = "" },
-                        new { Id = 3, CanDelete = false, Key = "Email", Value = "" },
-                        new { Id = 4, CanDelete = false, Key = "Address", Value = "" },
-                        new { Id = 5, CanDelete = false, Key = "City", Value = "" },
-                        new { Id = 6, CanDelete = false, Key = "State", Value = "" },
-                        new { Id = 7, CanDelete = false, Key = "Zipcode", Value = "" },
-                        new { Id = 8, CanDelete = false, Key = "Mission_Statement", Value = "" },
-                        new { Id = 9, CanDelete = false, Key = "Quote", Value = "" }
-                    );
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
