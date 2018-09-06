@@ -1,5 +1,3 @@
-
-
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
@@ -36,7 +34,7 @@ export class PageComponent implements OnInit {
             this.pageService.loadPage(this.pageId);
             this.pageService.loadPageContent(this.pageId);
         });
-    } 
+    }
 
     deletePage() {
         this.confirmService.confirm({

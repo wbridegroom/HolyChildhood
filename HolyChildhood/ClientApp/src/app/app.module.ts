@@ -7,10 +7,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { PageService } from './shared/services/page.service';
 import { EventService } from './shared/services/event.service';
 import { SettingsComponent } from './settings/settings.component';
+import { SettingsService } from './shared/services/settings.service';
 import { environment } from './../environments/environment';
 import { PageComponent } from './page/page.component';
 import { DialogModule } from 'primeng/dialog';
@@ -24,6 +25,10 @@ import { LoginComponent } from './login/login.component';
 import { AuthService } from './shared/services/auth.service';
 import { AuthInterceptor } from './shared/services/auth.interceptor';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+
+export function settingsFactory(service: SettingsService) {
+    return () => service.load();
+}
 
 @NgModule({
   declarations: [
@@ -51,6 +56,10 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
     AppRouting
   ],
   providers: [
+    SettingsService,
+    {
+        provide: APP_INITIALIZER, useFactory: settingsFactory, deps: [SettingsService], multi: true
+    },
     PageService,
     EventService,
     AuthService,
@@ -63,4 +72,5 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

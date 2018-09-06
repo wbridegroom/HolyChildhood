@@ -2,24 +2,24 @@
     <div class='container'>
         <div class='row header1'>
             <div class='col-lg-6'>
-                <h1>{{ getSetting('Title') }}</h1>
+                <h1>{{ settings.get('Title') }}</h1>
             </div>
 
             <div class='col-lg-3'>
                 <div class='row'>
                     <div class='col-sm-12'>
-                        <i class="fas fa-phone"></i> {{ getSetting('Phone') }}
+                        <i class="fas fa-phone"></i> {{ settings.get('Phone') }}
                     </div>
                 </div>
                 <div class='row'>
                     <div class='col-sm-12'>
-                        <a href="mailto:{{ getSetting('Email') }}">{{ getSetting('Email') }}</a>
+                        <a href="mailto:{{ settings.get('Email') }}">{{ settings.get('Email') }}</a>
                     </div>
                 </div>
             </div>
             <div class='col-lg-3'>
-                <div class='row'><div class='col-sm-12'>{{ getSetting('Address') }}</div></div>
-                <div class='row'><div class='col-sm-12'>{{ getSetting('City') }}, {{ getSetting('State') }} {{ getSetting('Zipcode') }}</div></div>
+                <div class='row'><div class='col-sm-12'>{{ settings.get('Address') }}</div></div>
+                <div class='row'><div class='col-sm-12'>{{ settings.get('City') }}, {{ settings.get('State') }} {{ settings.get('Zipcode') }}</div></div>
             </div>
         </div>
         <div class='row header2'>
