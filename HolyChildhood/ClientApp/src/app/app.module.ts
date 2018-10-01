@@ -15,12 +15,15 @@ import { SettingsService } from './shared/services/settings.service';
 import { environment } from './../environments/environment';
 import { PageComponent } from './page/page.component';
 import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TableModule } from 'primeng/table';
+import { ListboxModule } from 'primeng/listbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
+import { ScheduleModule } from 'primeng/schedule';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './shared/services/auth.service';
 import { AuthInterceptor } from './shared/services/auth.interceptor';
@@ -46,10 +49,13 @@ export function settingsFactory(service: SettingsService) {
     ReactiveFormsModule,
     DialogModule,
     ButtonModule,
+    DropdownModule,
     TableModule,
+    ListboxModule,
     ConfirmDialogModule,
     InputTextModule,
     InputTextareaModule,
+    ScheduleModule,
     HttpClientModule,
     FroalaEditorModule,
     FroalaViewModule,

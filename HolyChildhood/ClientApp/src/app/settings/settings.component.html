@@ -3,40 +3,143 @@
 <br />
 <div class="row">
     <div class="col-md-12">
-        <p-table [value]="settings.getAll()">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th style="width: 15%">Key</th>
-                    <th style="width: 75%">Value</th>
-                    <th style="width: 10%"></th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-setting>
-                <tr>
-                    <td>{{ setting.key }}</td>
-                    <td>{{ setting.value }}</td>
-                    <td>
-                        <Button class="btn btn-primary btn-sm" (click)="editSetting(setting)"><i class="fas fa-pencil-alt"></i></Button>
-                    </td>
-                </tr>
-            </ng-template>
-        </p-table>
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-site-settings-tab" data-toggle="tab" href="#site-settings" role="tab">Site Settings</a>
+                <a class="nav-item nav-link" id="nav-parishioners" data-toggle="tab" href="#parishioners" role="tab">Parishioners</a>
+                <a class="nav-item nav-link" id="nav-groups" data-toggle="tab" href="#groups" role="tab">Groups</a>
+            </div>
+        </nav>
 
-        <p-dialog header="Setting Value" [(visible)]="displaySettingDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="500">
-            <div class="ui-g ui-fluid" *ngIf="setting">
-                <div class="ui-g-12">
-                    {{ setting.key }}
-                </div>
-                <div class="ui-g-12">
-                    <textarea pInputTextarea id="value" [(ngModel)]="setting.value"></textarea>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="site-settings" role="tabpanel">
+                <p-table [value]="settings.getAll()">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 15%">Key</th>
+                            <th style="width: 75%">Value</th>
+                            <th style="width: 10%"></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-setting>
+                        <tr>
+                            <td>{{ setting.key }}</td>
+                            <td>{{ setting.value }}</td>
+                            <td>
+                                <Button class="btn btn-primary btn-sm" (click)="editSetting(setting)"><i class="fas fa-pencil-alt"></i></Button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+                <p-dialog header="Setting Value" [(visible)]="displaySettingDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="500">
+                    <div class="ui-g ui-fluid" *ngIf="setting">
+                        <div class="ui-g-12">
+                            {{ setting.key }}
+                        </div>
+                        <div class="ui-g-12">
+                            <textarea pInputTextarea id="value" [(ngModel)]="setting.value"></textarea>
+                        </div>
+                    </div>
+                    <p-footer>
+                        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                            <button type="button" pButton icon="fas fa-ban" (click)="cancelEdit()" label="Cancel"></button>
+                            <button type="button" pButton icon="fa fa-check" (click)="saveSetting()" label="Save"></button>
+                        </div>
+                    </p-footer>
+                </p-dialog>
+            </div>
+
+            <div class="tab-pane fade" id="parishioners" role="tabpanel">
+                <div class="row">
+                    <div class="col-4">
+                        <p-listbox [options]="parishioners" optionLabel="fullName" filter="filter"  [(ngModel)]="selectedParishioner" [style]="{'width':'250px', 'height':'400px'}">
+                        </p-listbox>
+                    </div>
+                    <div class="col-8">
+                        <h5>Parishioner Data</h5>
+                        <div *ngIf="selectedParishioner && !editParishioner">
+                            <div class="row">
+                                <div class="col-2">
+                                    Title
+                                </div>
+                                <div class="col-10">
+                                    {{ selectedParishioner.title }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">
+                                    First Name
+                                </div>
+                                <div class="col-10">
+                                    {{ selectedParishioner.firstName }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">
+                                    Middle Initial
+                                </div>
+                                <div class="col-10">
+                                        {{ selectedParishioner.middleInitial }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">
+                                    Last Name
+                                </div>
+                                <div class="col-10">
+                                        {{ selectedParishioner.lastName }}
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="selectedParishioner && editParishioner">
+                            <div class="row">
+                                <div class="col-2">
+                                    Title
+                                </div>
+                                <div class="col-10">
+                                    <p-dropdown [options]="titles" [(ngModel)]="selectedParishioner.title"></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">
+                                    First Name
+                                </div>
+                                <div class="col-10">
+                                    <input type="text" pInputText [(ngModel)]="selectedParishioner.firstName">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">
+                                    Middle Initial
+                                </div>
+                                <div class="col-10">
+                                    <input type="text" pInputText [(ngModel)]="selectedParishioner.middleInitial">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">
+                                    Last Name
+                                </div>
+                                <div class="col-10">
+                                    <input type="text" pInputText [(ngModel)]="selectedParishioner.lastName">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <br />
+                            <button *ngIf="selectedParishioner && !editParishioner" class="ui-button-danger" pButton type="button" icon="pi pi-pencil" label="Edit" (click)="editParishioner = true"></button>
+                            <button *ngIf="selectedParishioner && editParishioner" class="ui-button-info" pButton type="button" icon="fas fa-save" label="Save" (click)="saveParishioner()"></button>
+                            &nbsp;
+                            <button *ngIf="selectedParishioner && editParishioner" class="ui-button-warning" pButton type="button" icon="fas fa-ban" label="Cancel" (click)="editParishioner = false"></button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <p-footer>
-                <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                    <button type="button" pButton icon="fas fa-ban" (click)="cancelEdit()" label="Cancel"></button>
-                    <button type="button" pButton icon="fa fa-check" (click)="saveSetting()" label="Save"></button>
-                </div>
-            </p-footer>
-        </p-dialog>
+
+            <div class="tab-pane fade" id="groups" role="tabpanel">
+                Group Table
+            </div>
+        </div>
     </div>
 </div>

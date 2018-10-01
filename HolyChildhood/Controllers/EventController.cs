@@ -22,7 +22,7 @@ namespace HolyChildhood.Controllers
         [HttpGet]
         public IEnumerable<Event> Get()
         {
-            return dbContext.Events.OrderBy(e => e.Date).ToList();
+            return dbContext.Events.OrderBy(e => e.BeginDate).ToList();
         }
     }
 }

@@ -24,14 +24,18 @@
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/font-awesome/css/font-awesome.css",
-              "node_modules/primeng/resources/themes/omega/theme.css",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeng/resources/themes/nova-light/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/froala-editor/css/froala_editor.pkgd.min.css",
-              "node_modules/froala-editor/css/froala_style.min.css"
+              "node_modules/froala-editor/css/froala_style.min.css",
+              "node_modules/fullcalendar/dist/fullcalendar.css"
             ],
             "scripts": [
                 "node_modules/froala-editor/js/froala_editor.pkgd.min.js",
-                "node_modules/froala-editor/js/plugins/image_manager.min.js"
+                "node_modules/froala-editor/js/plugins/image_manager.min.js",
+                "node_modules/moment/min/moment.min.js",
+                "node_modules/fullcalendar/dist/fullcalendar.min.js"
             ]
           },
           "configurations": {

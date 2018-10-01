@@ -25,6 +25,8 @@ export class PageComponent implements OnInit {
         imageManagerLoadURL: '/api/image'
     };
 
+    events: any[];
+
     constructor(private authService: AuthService,
                 public pageService: PageService,
                 private route: ActivatedRoute,
@@ -50,6 +52,10 @@ export class PageComponent implements OnInit {
 
     addContent() {
         this.pageService.addPageContent(this.pageId);
+    }
+
+    addCalender() {
+        this.pageService.addCalender(this.pageId);
     }
 
     editPage() {
