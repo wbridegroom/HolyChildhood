@@ -45,13 +45,9 @@
         <div class="col">
             <h2>Upcoming Events</h2>
             <div class="row" *ngFor="let event of eventService.events">
-                <div class="col-md-4"><span class="list-item">{{ event.date | date:'MMMM d'}}</span></div>
-                <div class="col-md-8">
-                    {{event.title}}
-                    <span *ngIf="event.beginTime && event.endTime">
-                        ({{event.beginTime | date:'h:mm'}} - {{event.endTime | date: 'h:mm a'}})
-                    </span>
-                </div>
+                <div class="col-md-3"><span class="list-item">{{ event.start | date:'MMM d'}}</span></div>
+                <div class="col-md-3">{{ event.start | date: 'shortTime'}}</div>
+                <div class="col-md-6">{{ event.title }}</div>
             </div>
         </div>
     </div>

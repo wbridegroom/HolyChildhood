@@ -30,7 +30,7 @@ namespace HolyChildhood.Controllers
         [HttpGet("{id}")]
         public Page Get(int id)
         {
-            return dbContext.Pages.Include(p => p.Parent).FirstOrDefault(p => p.Id == id);
+            return dbContext.Pages.Include(p => p.Parent).Include(p => p.PageContents).FirstOrDefault(p => p.Id == id);
         }
 
         [HttpPost]

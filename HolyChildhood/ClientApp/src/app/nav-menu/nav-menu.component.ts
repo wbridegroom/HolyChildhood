@@ -1,28 +1,23 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Page } from './../shared/models/page';
-import { PageService } from './../shared/services/page.service';
+import { NavService } from './../shared/services/nav.service';
 import { AuthService } from './../shared/services/auth.service';
-import { DialogModule } from 'primeng/dialog';
-import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.css']
 })
-export class NavMenuComponent implements OnInit, OnDestroy {
+export class NavMenuComponent implements OnInit {
     isExpanded = false;
     displayAddPageDialog = false;
     newPage: Page = {} as Page;
 
-    constructor(private authService: AuthService, public pageService: PageService) {}
+    constructor(private authService: AuthService, public navService: NavService) {}
 
     ngOnInit() {
         this.getPages();
-    }
-
-    ngOnDestroy() {
     }
 
     logout() {
@@ -40,7 +35,7 @@ export class NavMenuComponent implements OnInit, OnDestroy {
     }
 
     getPages() {
-        this.pageService.getTopLevelPages();
+        this.navService.getTopLevelPages();
     }
 
     hasSubPages(page) {
@@ -59,7 +54,7 @@ export class NavMenuComponent implements OnInit, OnDestroy {
 
     addPage(): void {
         this.displayAddPageDialog = false;
-        this.pageService.addPage(this.newPage);
+        this.navService.addPage(this.newPage);
     }
 
     collapse() {

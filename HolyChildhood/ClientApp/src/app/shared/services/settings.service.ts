@@ -1,17 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Setting } from './../models/setting';
+import { Parishioner } from './../models/user';
 
 @Injectable()
 export class SettingsService {
 
     settings: Setting[];
+    parishioners: Parishioner[];
 
     constructor(private http: HttpClient) { }
 
     get(key) {
-        let setting = this.settings.filter(s => s.key === key)[0];
-        return setting.value;
+        if (this.settings) {
+            let setting = this.settings.filter(s => s.key === key)[0];
+            return setting.value;
+        }
+        return null;
     }
 
     getAll() {
@@ -19,7 +25,10 @@ export class SettingsService {
     }
 
     getSetting(key) {
-        return this.settings.filter(s => s.key === key)[0];
+        if (this.settings) {
+            return this.settings.filter(s => s.key === key)[0];
+        }
+        return null;
     }
 
     save(updated_setting) {
@@ -36,11 +45,16 @@ export class SettingsService {
     }
 
     load() {
-        console.log('Loading settings');
-        const url = '/api/settings';
-        this.http.get(url).subscribe((data: Setting[]) => {
-            this.settings = data;
-        })
+        let url = '/api/settings';
+        this.http.get<Setting[]>(url).subscribe(settings => this.settings = settings);
+
+        url = '/api/parishioners';
+        this.http.get<Parishioner[]>(url).subscribe(parishioners => this.parishioners = parishioners);
+    }
+
+    getParishioners(): Observable<Parishioner[]> {
+        const url = '/api/parishioners';
+        return this.http.get<Parishioner[]>(url);
     }
 }
-4
+

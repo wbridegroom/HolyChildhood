@@ -78,7 +78,20 @@ export class PageService {
               'Content-Type':  'application/json'
             })
         };
-        const newContent = { content: '<p>New Content</p>'} as PageContent;
+        const newContent = { content: '<p>New Content</p>', contentType: 'Text'} as PageContent;
+        this.httpClient.post(url, newContent, options).subscribe((data: PageContent) => {
+            this.pageContents.push(data);
+        });
+    }
+
+    public addCalender(pageId: string) {
+        const url = `/api/pagecontent/create/${pageId}`;
+        const options = {
+            headers: new HttpHeaders({
+              'Content-Type':  'application/json'
+            })
+        };
+        const newContent = { contentType: 'Calender'} as PageContent;
         this.httpClient.post(url, newContent, options).subscribe((data: PageContent) => {
             this.pageContents.push(data);
         });

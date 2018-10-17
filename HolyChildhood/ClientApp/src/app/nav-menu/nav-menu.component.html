@@ -10,14 +10,16 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-item nav-link" routerLinkActive="active" routerLink="/home">Home</a>
+                <a class="nav-item nav-link" routerLinkActive="active" routerLink="/home">
+                    <i class="fas fa-home"></i> Home
+                </a>
             </li>
 
-            <li class="nav-item" *ngFor="let page of pageService.pages" [ngClass]="{'dropdown': hasSubPages(page) || isEdit()}">
-                <a *ngIf="!hasSubPages(page) && !isEdit()" class="nav-item nav-link" routerLinkActive="active"  routerLink="/page/{{ page.id }}">{{ page.title }}</a>
+            <li class="nav-item" *ngFor="let page of navService.pages" [ngClass]="{'dropdown': hasSubPages(page) || isEdit()}">
+                <a *ngIf="!hasSubPages(page) && !isEdit()" class="nav-item nav-link" routerLinkActive="active"  routerLink="/pages/{{ page.id }}">{{ page.title }}</a>
                 <a *ngIf="hasSubPages(page) || isEdit()" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">{{ page.title }}</a>
                 <div class="dropdown-menu">
-                    <a *ngFor="let subpage of page.children" class="dropdown-item" routerLink="/page/{{ subpage.id }}">{{ subpage.title }}</a>
+                    <a *ngFor="let subpage of page.children" class="dropdown-item" routerLink="/pages/{{ subpage.id }}">{{ subpage.title }}</a>
 
                     <button *ngIf="isEdit()" class="dropdown-item" class="btn btn-sm btn-success adminButton" (click)="showAddPageDialog(page)">
                         <i class="fas fa-plus"></i>
@@ -28,7 +30,7 @@
 
             <div *ngIf="isEdit()">
                 <p-dialog header="Add Page" [modal]="true" [responsive]="true" [width]="450" [(visible)]="displayAddPageDialog">
-                    <span class="ui-float-label">
+                    <span class="ui-float-label" style="margin: 10px">
                         <input id="float-input" type="text" size="30" pInputText [(ngModel)]="newPage.title">
                         <label for="float-input">Page Title</label>
                     </span>
@@ -48,18 +50,26 @@
         <ul class="navbar-nav">
             <li *ngIf="isAuthenticated()" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ getUserName() }}
+                    <i class="far fa-user"></i> {{ getUserName() }}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" routerLinkActive="active" routerLink="/settings">Settings</a>
-                    <a class="dropdown-item" [routerLink]="" (click)="toggleEditMode()">{{ getEditMenuItem() }}</a>
+                    <a class="dropdown-item" routerLinkActive="active" routerLink="/settings">
+                        <i class="fas fa-cogs"></i> Settings
+                    </a>
+                    <a class="dropdown-item" [routerLink]="" (click)="toggleEditMode()">
+                        <i class="fas fa-pencil-alt"></i> {{ getEditMenuItem() }}
+                    </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" (click)="logout()" [routerLink]="">Logoff</a>
+                    <a class="dropdown-item" (click)="logout()" [routerLink]="">
+                        <i class="fas fa-sign-out-alt"></i> Logoff
+                    </a>
                 </div>
 
             </li>
             <li *ngIf="!isAuthenticated()" class="nav-item">
-                <button class="btn btn-sm btn-outline-light" routerLink="/login">Login</button>
+                <button class="btn btn-sm btn-outline-light" routerLink="/login">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
             </li>
         </ul>
     </div>

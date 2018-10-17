@@ -28,12 +28,7 @@ namespace HolyChildhood.Controllers
         [ProducesResponseType(204)]
         public async Task<ActionResult> Register(UserViewModel user)
         {
-            var appUser = new AppUser
-            {
-                UserName = user.UserName,
-                FirstName = user.FirstName,
-                LastName = user.LastName
-            };
+            var appUser = new AppUser { UserName = user.UserName };
             await userManager.CreateAsync(appUser, user.Password);
             userManager.AddToRoleAsync(appUser, "User");
             foreach (var roleName in user.Roles)
