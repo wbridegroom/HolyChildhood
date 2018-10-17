@@ -13,8 +13,11 @@ export class SettingsService {
     constructor(private http: HttpClient) { }
 
     get(key) {
-        let setting = this.settings.filter(s => s.key === key)[0];
-        return setting.value;
+        if (this.settings) {
+            let setting = this.settings.filter(s => s.key === key)[0];
+            return setting.value;
+        }
+        return null;
     }
 
     getAll() {
@@ -22,7 +25,10 @@ export class SettingsService {
     }
 
     getSetting(key) {
-        return this.settings.filter(s => s.key === key)[0];
+        if (this.settings) {
+            return this.settings.filter(s => s.key === key)[0];
+        }
+        return null;
     }
 
     save(updated_setting) {
@@ -39,7 +45,6 @@ export class SettingsService {
     }
 
     load() {
-        console.log('Loading settings');
         let url = '/api/settings';
         this.http.get<Setting[]>(url).subscribe(settings => this.settings = settings);
 

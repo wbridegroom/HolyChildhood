@@ -1,0 +1,53 @@
+<div class="row adminPanel" *ngIf="isEditOn()">
+    <div class="col-md-12">
+        <p-dialog *ngIf="pageEdit" header="Edit Page" [modal]="true" [responsive]="true" [width]="450" [(visible)]="displayEditPageDialog">
+            <span class="ui-float-label">
+                <input id="float-input" type="text" size="30" pInputText [(ngModel)]="pageEdit.title">
+                <label for="float-input">Page Title</label>
+            </span>
+            <p-footer>
+                <button type="button" pButton icon="fa-check" (click)="updatePage()" label="OK"></button>
+                <button type="button" pButton icon="fa-close" (click)="displayEditPageDialog=false" label="Cancel"></button>
+            </p-footer>
+        </p-dialog>
+        <p-confirmDialog header="Delete Page?" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-success adminButton dropdown-toggle" data-toggle="dropdown">
+                <i class="fas fa-plus"></i> Add Content
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" [routerLink]="" (click)="addContent('Text')">Text/HTML</a>
+                <a class="dropdown-item" [routerLink]="" (click)="addContent('Tabs')">Tabs</a>
+                <a class="dropdown-item" [routerLink]="" (click)="addContent('Calendar')">Calender</a>
+            </div>
+        </div>
+        <button class="btn btn-sm btn-primary adminButton" (click)="editPage()">
+            <i class="fas fa-edit"></i> Edit Page
+        </button>
+        <button class="btn btn-sm btn-danger adminButton" (click)="deletePage()">
+            <i class="fas fa-trash-alt"></i> Delete Page
+        </button>
+    </div>
+</div>
+
+<div class="content-container" *ngIf="pagesService.page">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item" *ngIf="pagesService.page && pagesService.page.parent">{{ pagesService.page.parent.title }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ pagesService.page.title }}</li>
+        </ol>
+    </nav>
+    <div class="content" [ngClass]="{'edit': isEditOn()}" *ngFor="let pageContent of pagesService.page.pageContents">
+        <div *ngIf="pageContent.contentType === 'Text'">
+            <content-text [pageContent]="pageContent"></content-text>
+        </div>
+        <div *ngIf="pageContent.contentType === 'Calendar'">
+            <content-calendar [pageContent]='pageContent'></content-calendar>
+        </div>
+        <div *ngIf="pageContent.contentType === 'Tabs'">
+            <content-tabs [pageContent]='pageContent'></content-tabs>
+        </div>
+    </div>
+</div>
