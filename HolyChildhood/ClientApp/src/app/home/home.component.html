@@ -7,23 +7,31 @@
 </div>
 
 <div class="container">
-  <div class="row">
-      <div class="col">
-          <h2>Our Mission</h2>
-          <p>
-              {{ settings.get('Mission_Statement') }}
-          </p>
-      </div>
-  </div>
     <div class="row">
         <div class="col">
-            <h2>Mass Schedule</h2>
+            <h2>Our Mission</h2>
+            <p>{{ settings.get('Mission_Statement') }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Weekly Schedule</h2>
             <div class="row">
-                <div class="col">Saturday</div>
+                <div class="col"><b>Saturday</b></div>
+            </div>
+            <div class="row">
+                <div class="col">Reconciliation</div>
+                <div class="col">4:00 P.M.</div>
+            </div>
+            <div class="row">
+                <div class="col">Mass</div>
                 <div class="col">5:00 P.M.</div>
             </div>
             <div class="row">
-                <div class="col">Sunday</div>
+                <div class="col"><b>Sunday</b></div>
+            </div>
+            <div class="row">
+                <div class="col">Mass</div>
                 <div class="col">8:00 A.M.</div>
             </div>
             <div class="row">
@@ -31,29 +39,41 @@
                 <div class="col">10:30 A.M.</div>
             </div>
             <div class="row">
-                <div class="col">Tue, Thurs, Fri</div>
+                <div class="col"><b>Tue, Thurs, Fri</b></div>
+            </div>
+            <div class="row">
+                <div class="col">Daily Mass</div>
                 <div class="col">8:00 A.M.</div>
             </div>
         </div>
-        <div class="col">
-            <h2>Reconciliation</h2>
-            <div class="row">
-                <div class="col">Saturday</div>
-                <div class="col">4:00 P.M.</div>
-            </div>
-        </div>
-        <div class="col">
+        <div class="col-md-4">
             <h2>Upcoming Events</h2>
             <div class="row" *ngFor="let event of eventService.events">
-                <div class="col-md-3"><span class="list-item">{{ event.start | date:'MMM d'}}</span></div>
-                <div class="col-md-3">{{ event.start | date: 'shortTime'}}</div>
-                <div class="col-md-6">{{ event.title }}</div>
+                <div class="col-lg-3">
+                    <div class="card" style="width: 75px; padding: 0; margin-bottom: 5px; border-color: #1f3e65">
+                        <div class="card-header text-center" style="font-weight: bold; padding: 0; background-color: #1f3e65; color: white">
+                            {{ event.start | date:'MMM'}}
+                        </div>
+                        <div class="card-body text-center" style="font-weight: bold; padding: 0;">
+                            {{ event.start | date:'d'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div style="font-weight: bold">{{ event.title }}</div>
+                    {{ event.start | date: 'shortTime'}}
+                </div>
             </div>
+        </div>
+        <div class="col-md-4">
+            <a href="http://churchcampaign.org/holychild" target="_blank">
+                <img src="assets/images/Past2Future.jpg" style="width: 250px">
+            </a>
         </div>
     </div>
     <br/>
   <div class="row">
-      <div class="col-12">
+      <div class="col-md-12">
           <h2>Contact Information</h2>
           <div class="row">
               <div class="col-md-2">

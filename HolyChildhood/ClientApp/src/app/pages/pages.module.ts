@@ -3,43 +3,57 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
-import { FullCalendarModule } from 'ng-fullcalendar';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 
 import { PagesRoutingModule } from './pages-routing.module';
 import { PageComponent } from './page/page.component';
 import { PagesService } from './pages.service';
 import { EventService } from '../shared/services/event.service';
+import { MessageService } from 'primeng/api';
 import { ContentTextComponent } from './content-text/content-text.component';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
-import { CalendarModule } from 'primeng/calendar';
+import { FileUploadModule } from 'primeng/fileupload';
+import { DropdownModule } from 'primeng/dropdown';
+import { ToastModule } from 'primeng/toast';
 import { ContentCalendarComponent } from './content-calendar/content-calendar.component';
 import { ContentTabsComponent } from './content-tabs/content-tabs.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ContentFilesComponent } from './content-files/content-files.component';
 
 import 'jquery';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    PagesRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FroalaEditorModule,
-    FroalaViewModule,
-    FullCalendarModule,
-    DialogModule,
-    ConfirmDialogModule,
-    InputTextModule,
-    NgbModule,
-  ],
-  providers: [
-      PagesService,
-      ConfirmationService,
-      EventService
-  ],
-  declarations: [PageComponent, ContentTextComponent, ContentCalendarComponent, ContentTabsComponent]
+    imports: [
+        CommonModule,
+        PagesRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FroalaEditorModule,
+        FroalaViewModule,
+        PdfJsViewerModule,
+        DialogModule,
+        ConfirmDialogModule,
+        InputTextModule,
+        FileUploadModule,
+        DropdownModule,
+        ToastModule,
+        NgbModule,
+    ],
+    providers: [
+        PagesService,
+        ConfirmationService,
+        EventService,
+        MessageService
+    ],
+    declarations: [
+        PageComponent,
+        ContentTextComponent,
+        ContentCalendarComponent,
+        ContentTabsComponent,
+        ContentFilesComponent
+    ]
 })
 export class PagesModule { }
