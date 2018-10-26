@@ -114,6 +114,23 @@ namespace HolyChildhood.Migrations
                     b.ToTable("Events");
                 });
 
+            modelBuilder.Entity("HolyChildhood.Models.File", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<string>("Title");
+
+                    b.Property<string>("Type");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Files");
+                });
+
             modelBuilder.Entity("HolyChildhood.Models.Group", b =>
                 {
                     b.Property<int>("Id")

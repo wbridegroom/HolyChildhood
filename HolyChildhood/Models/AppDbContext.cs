@@ -21,6 +21,7 @@ namespace HolyChildhood.Models
         public DbSet<MeetingEvent> MeetingEvents { get; set; }
         public DbSet<VolunteerEvent> VolunteerEvents { get; set; }
         public DbSet<Setting> Settings { get; set; }
+        public DbSet<File> Files { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

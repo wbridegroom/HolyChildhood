@@ -1,0 +1,24 @@
+<!-- <button *ngIf="isAuthenticated()" class="btn btn-sm btn-success adminButton" (click)="addBulletin()" style="margin-left: 0; margin-bottom:15px">
+    <i class="fas fa-plus"></i> Add Bulletin
+</button> -->
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<div *ngIf="isAuthenticated()" class="form-inline">
+    <div class="form-group mb-2">
+        <label for="titleInput" style="font-weight: bold; margin-right: 5px">Title</label>
+        <input id="titleInput" type="text" pInputText [(ngModel)]="title"/>
+    </div>
+    <div class="form-group mx-sm-3 mb-2">
+        <p-fileUpload name="files" customUpload="true" (uploadHandler)="upload($event)" url="/api/file" mode="basic" auto="true"></p-fileUpload>
+    </div>
+</div>
+<p-dropdown [options]="bulletins" [(ngModel)]="selectedBulletin" optionLabel="title" [style]="{'width':'200px','marginBottom':'10px'}" (onChange)="loadBulletin()"></p-dropdown>
+<br />
+<div style="width: 100%; height: 800px">
+    <ng2-pdfjs-viewer #embeddedPdfViewer></ng2-pdfjs-viewer>
+</div>
+
+<div class="adminPanel" *ngIf="isEditOn()">
+    <button *ngIf="!pageContent.editing" class="btn btn-sm btn-danger adminButton" (click)="deleteContent()">
+        <i class="fas fa-trash-alt"></i> Delete
+    </button>
+</div>

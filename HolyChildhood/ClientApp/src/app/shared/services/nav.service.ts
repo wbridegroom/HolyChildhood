@@ -25,7 +25,7 @@ export class NavService {
         };
         this.httpClient.post<Page>('/api/page', page, options).subscribe(res => {
             this.getTopLevelPages();
-            this.router.navigate([`/page/${res.id}`]);
+            this.router.navigate([`/pages/${res.id}`]);
         });
     }
 
